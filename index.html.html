@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Primera Memoria - Para Bebés</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(45deg, #FFE5E5, #E5F3FF, #E5FFE5, #FFF5E5);
+            background-size: 400% 400%;
+            animation: backgroundShift 10s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            overflow-x: hidden;
+        }
+        
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .game-container {
+            max-width: 900px;
+            width: 100%;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 3rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 4px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .header {
+            margin-bottom: 2rem;
+        }
+        
+        .title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #FF6B9D;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: titleBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes titleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: #4ECDC4;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .category-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            font-family: 'Fredoka', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-btn.active {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .category-btn.animals { background: linear-gradient(145deg, #FFB6C1, #FF69B4); }
+        .category-btn.fruits { background: linear-gradient(145deg, #FFE4B5, #FFA500); }
+        .category-btn.toys { background: linear-gradient(145deg, #E6E6FA, #9370DB); }
+        .category-btn.everyday { background: linear-gradient(145deg, #98FB98, #32CD32); }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .level-display {
+            background: linear-gradient(145deg, #FFD700, #FFA500);
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .celebration-count {
+            background: linear-gradient(145deg, #FF6B9D, #4ECDC4);
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .game-board {
+            display: grid;
+            gap: 3rem;
+            margin: 3rem auto;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .level-1 { grid-template-columns: repeat(2, 150px); }
+        .level-2 { grid-template-columns: repeat(3, 140px); }
+        .level-3 { grid-template-columns: repeat(4, 130px); }
+        .level-4 { grid-template-columns: repeat(4, 125px); }
+        
+        @media (max-width: 768px) {
+            .level-1 { grid-template-columns: repeat(2, 120px); gap: 2rem; }
+            .level-2 { grid-template-columns: repeat(3, 110px); gap: 2rem; }
+            .level-3 { grid-template-columns: repeat(4, 100px); gap: 1.5rem; }
+            .level-4 { grid-template-columns: repeat(4, 95px); gap: 1.5rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .level-1 { grid-template-columns: repeat(2, 100px); gap: 1.5rem; }
+            .level-2 { grid-template-columns: repeat(3, 90px); gap: 1.5rem; }
+            .level-3 { grid-template-columns: repeat(2, 90px); gap: 1.5rem; }
+            .level-4 { grid-template-columns: repeat(2, 85px); gap: 1.5rem; }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            border: 4px solid #FFB6C1;
+            overflow: hidden;
+        }
+        
+        .level-1 .card { width: 150px; height: 150px; }
+        .level-2 .card { width: 140px; height: 140px; }
+        .level-3 .card { width: 130px; height: 130px; }
+        .level-4 .card { width: 125px; height: 125px; }
+        
+        @media (max-width: 768px) {
+            .level-1 .card { width: 120px; height: 120px; }
+            .level-2 .card { width: 110px; height: 110px; }
+            .level-3 .card { width: 100px; height: 100px; }
+            .level-4 .card { width: 95px; height: 95px; }
+        }
+        
+        @media (max-width: 480px) {
+            .level-1 .card { width: 100px; height: 100px; }
+            .level-2 .card { width: 90px; height: 90px; }
+            .level-3 .card { width: 90px; height: 90px; }
+            .level-4 .card { width: 85px; height: 85px; }
+        }
+        
+        .card:hover:not(.matched):not(.flipped) {
+            transform: translateY(-15px) scale(1.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #FF69B4;
+        }
+        
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 1.6rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-front {
+            background: white;
+            transform: rotateY(180deg);
+            padding: 0.5rem;
+        }
+        
+        .card-back {
+            background: linear-gradient(145deg, #FFB6C1, #FF69B4);
+            color: white;
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card.flipped .card-inner,
+        .matched .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .emoji-symbol {
+            font-size: 5rem;
+            line-height: 1;
+            display: block;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        @media (max-width: 768px) {
+            .emoji-symbol { font-size: 4rem; }
+            .card-back { font-size: 3rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .emoji-symbol { font-size: 3rem; }
+            .card-back { font-size: 2.5rem; }
+        }
+        
+        .matched {
+            animation: matchCelebration 1s ease;
+            border-color: #32CD32 !important;
+            cursor: default;
+        }
+        
+        @keyframes matchCelebration {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2) rotate(5deg); }
+            50% { transform: scale(1.1) rotate(-5deg); }
+            75% { transform: scale(1.15) rotate(3deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        .win-message {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #FF6B9D;
+            margin: 2rem 0;
+            animation: winCelebration 2s ease-in-out;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes winCelebration {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1) rotate(2deg); }
+            75% { transform: scale(1.05) rotate(-2deg); }
+        }
+        
+        .button {
+            padding: 1.5rem 3rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.3rem;
+            margin: 1rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .next-level-btn {
+            background: linear-gradient(145deg, #32CD32, #228B22);
+            color: white;
+        }
+        
+        .restart-btn {
+            background: linear-gradient(145deg, #FFB6C1, #FF69B4);
+            color: white;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .celebration-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .particle {
+            position: absolute;
+            font-size: 2rem;
+            animation: fall 4s linear forwards;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .hidden { display: none !important; }
+        
+        .sound-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .sound-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .sound-toggle {
+            background: linear-gradient(145deg, #4ECDC4, #45B7D1);
+            color: white;
+        }
+        
+        .help-btn {
+            background: linear-gradient(145deg, #FFD700, #FFA500);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <div class="sound-controls">
+        <button id="sound-toggle" class="sound-btn sound-toggle" title="Sonidos">🔊</button>
+        <button id="help-btn" class="sound-btn help-btn" title="Ayuda">❓</button>
+    </div>
+    
+    <div class="header">
+        <h1 class="title">🎮 Mi Primera Memoria 🎮</h1>
+        <p class="subtitle">¡Encuentra las parejas iguales!</p>
+        
+        <div class="category-selector">
+            <button class="category-btn animals active" data-category="animals">
+                🐶 Animalitos
+            </button>
+            <button class="category-btn fruits" data-category="fruits">
+                🍎 Frutas
+            </button>
+            <button class="category-btn toys" data-category="toys">
+                🧸 Juguetes
+            </button>
+            <button class="category-btn everyday" data-category="everyday">
+                🏠 En Casa
+            </button>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <div class="level-display">
+            Nivel: <span id="current-level">1</span>
+        </div>
+        <div class="celebration-count">
+            Parejas: <span id="pairs-found">0</span>
+        </div>
+    </div>
+    
+    <div class="game-board level-1" id="game-board"></div>
+    
+    <div id="win-message" class="win-message hidden">
+        🎉 ¡Muy bien! ¡Encontraste todas! 🎉
+    </div>
+    
+    <div id="game-controls" class="hidden">
+        <button id="next-level-btn" class="button next-level-btn">🚀 Siguiente Nivel</button>
+        <button id="restart-btn" class="button restart-btn">🔄 Jugar de Nuevo</button>
+    </div>
+</div>
+
+<div id="celebration-particles" class="celebration-particles hidden"></div>
+
+<script>
+    const categories = {
+        animals: [
+            { emoji: '🐶', alt: 'Perrito' },
+            { emoji: '🐱', alt: 'Gatito' },
+            { emoji: '🐰', alt: 'Conejito' },
+            { emoji: '🐸', alt: 'Ranita' },
+            { emoji: '🐯', alt: 'Tigre' },
+            { emoji: '🐷', alt: 'Cerdito' },
+            { emoji: '🐻', alt: 'Osito' },
+            { emoji: '🐼', alt: 'Panda' }
+        ],
+        fruits: [
+            { emoji: '🍎', alt: 'Manzana' },
+            { emoji: '🍌', alt: 'Plátano' },
+            { emoji: '🍊', alt: 'Naranja' },
+            { emoji: '🍇', alt: 'Uvas' },
+            { emoji: '🍓', alt: 'Fresa' },
+            { emoji: '🍑', alt: 'Cereza' },
+            { emoji: '🥝', alt: 'Kiwi' },
+            { emoji: '🍉', alt: 'Sandía' }
+        ],
+        toys: [
+            { emoji: '🧸', alt: 'Osito de peluche' },
+            { emoji: '🚂', alt: 'Tren' },
+            { emoji: '⚽', alt: 'Pelota' },
+            { emoji: '🎈', alt: 'Globo' },
+            { emoji: '🪀', alt: 'Yoyo' },
+            { emoji: '🎯', alt: 'Diana' },
+            { emoji: '🎨', alt: 'Pintura' },
+            { emoji: '🎲', alt: 'Dado' }
+        ],
+        everyday: [
+            { emoji: '🍼', alt: 'Biberón' },
+            { emoji: '👶', alt: 'Bebé' },
+            { emoji: '🛏️', alt: 'Cama' },
+            { emoji: '🚗', alt: 'Carro' },
+            { emoji: '📱', alt: 'Teléfono' },
+            { emoji: '⏰', alt: 'Reloj' },
+            { emoji: '🍽️', alt: 'Plato' },
+            { emoji: '🧦', alt: 'Calcetín' }
+        ]
+    };
+    
+    const levelConfig = {
+        1: { pairs: 2, name: '¡Muy Fácil!' },
+        2: { pairs: 3, name: '¡Fácil!' },
+        3: { pairs: 4, name: '¡Un poquito más!' },
+        4: { pairs: 5, name: '¡Eres genial!' }
+    };
+    
+    let currentCategory = 'animals';
+    let currentLevel = 1;
+    let cards = [];
+    let flippedCards = [];
+    let matchedPairs = 0;
+    let soundEnabled = true;
+    let totalPairs = 0;
+    
+    const gameBoard = document.getElementById('game-board');
+    const winMessage = document.getElementById('win-message');
+    const gameControls = document.getElementById('game-controls');
+    const currentLevelElement = document.getElementById('current-level');
+    const pairsFoundElement = document.getElementById('pairs-found');
+    const celebrationParticles = document.getElementById('celebration-particles');
+
+    // Sistema de audio simplificado para bebés
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playHappySound() {
+        if (!soundEnabled) return;
+        // Sonido alegre para cuando encuentra pareja
+        const frequencies = [523, 659, 784]; // Do, Mi, Sol
+        frequencies.forEach((freq, index) => {
+            setTimeout(() => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = freq;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            }, index * 150);
+        });
+    }
+
+    function playClickSound() {
+        if (!soundEnabled) return;
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = 400;
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.1);
+    }
+
+    function playVictorySound() {
+        if (!soundEnabled) return;
+        const melody = [523, 659, 784, 1047]; // Do, Mi, Sol, Do alto
+        melody.forEach((freq, index) => {
+            setTimeout(() => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = freq;
+                oscillator.type = 'triangle';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.6);
+            }, index * 200);
+        });
+    }
+
+    function createCards() {
+        const categoryEmojis = categories[currentCategory];
+        const pairsNeeded = levelConfig[currentLevel].pairs;
+        totalPairs = pairsNeeded;
+        
+        const selectedEmojis = categoryEmojis.slice(0, pairsNeeded);
+        cards = [...selectedEmojis, ...selectedEmojis].sort(() => 0.5 - Math.random());
+        
+        gameBoard.innerHTML = '';
+        gameBoard.className = `game-board level-${currentLevel}`;
+        
+        cards.forEach((emojiObj, index) => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.dataset.index = index;
+            card.dataset.emoji = emojiObj.emoji;
+            
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-back">❓</div>
+                    <div class="card-front">
+                        <span class="emoji-symbol" title="${emojiObj.alt}">${emojiObj.emoji}</span>
+                    </div>
+                </div>
+            `;
+            
+            card.addEventListener('click', flipCard);
+            gameBoard.appendChild(card);
+        });
+        
+        updateUI();
+    }
+
+    function flipCard(event) {
+        const card = event.currentTarget;
+        
+        if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
+            card.classList.add('flipped');
+            flippedCards.push(card);
+            playClickSound();
+
+            if (flippedCards.length === 2) {
+                setTimeout(checkForMatch, 1000); // Más tiempo para que los niños vean
+            }
+        }
+    }
+
+    function checkForMatch() {
+        const [card1, card2] = flippedCards;
+        const emoji1 = card1.dataset.emoji;
+        const emoji2 = card2.dataset.emoji;
+
+        if (emoji1 === emoji2) {
+            // ¡Pareja encontrada!
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+            matchedPairs++;
+            
+            playHappySound();
+            pairsFoundElement.textContent = matchedPairs;
+            
+            // Celebración individual por cada pareja
+            createMiniCelebration();
+            
+            if (matchedPairs === totalPairs) {
+                setTimeout(gameWon, 1000);
+            }
+        } else {
+            // No coinciden, voltear de vuelta
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+        }
+        flippedCards = [];
+    }
+
+    function createMiniCelebration() {
+        const particles = ['🎉', '⭐', '🌟', '✨'];
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                particle.style.left = (30 + Math.random() * 40) + '%';
+                particle.style.animationDelay = Math.random() * 1 + 's';
+                celebrationParticles.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 4000);
+            }, i * 100);
+        }
+    }
+
+    function gameWon() {
+        playVictorySound();
+        winMessage.classList.remove('hidden');
+        gameControls.classList.remove('hidden');
+        
+        // Celebración grande
+        celebrationParticles.classList.remove('hidden');
+        const bigParticles = ['🎉', '🎊', '⭐', '🌟', '✨', '🎈', '🎁'];
+        
+        for (let i = 0; i < 30; i++) {
+            setTimeout(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = bigParticles[Math.floor(Math.random() * bigParticles.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                celebrationParticles.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 4000);
+            }, i * 100);
+        }
+        
+        setTimeout(() => {
+            celebrationParticles.classList.add('hidden');
+        }, 5000);
+    }
+
+    function nextLevel() {
+        if (currentLevel < 4) {
+            currentLevel++;
+            restartGame();
+        }
+    }
+
+    function restartGame() {
+        flippedCards = [];
+        matchedPairs = 0;
+        
+        winMessage.classList.add('hidden');
+        gameControls.classList.add('hidden');
+        
+        createCards();
+    }
+
+    function updateUI() {
+        currentLevelElement.textContent = `${currentLevel} - ${levelConfig[currentLevel].name}`;
+        pairsFoundElement.textContent = matchedPairs;
+    }
+
+    function changeCategory(category) {
+        currentCategory = category;
+        currentLevel = 1; // Reiniciar al nivel 1 con nueva categoría
+        
+        // Actualizar botones activos
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.category === category) {
+                btn.classList.add('active');
+            }
+        });
+        
+        restartGame();
+    }
+
+    // Event listeners
+    document.getElementById('next-level-btn').addEventListener('click', nextLevel);
+    document.getElementById('restart-btn').addEventListener('click', restartGame);
+
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            changeCategory(e.currentTarget.dataset.category);
+        });
+    });
+
+    document.getElementById('sound-toggle').addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        document.getElementById('sound-toggle').textContent = soundEnabled ? '🔊' : '🔇';
+    });
+
+    document.getElementById('help-btn').addEventListener('click', () => {
+        alert('¡Hola! 👋\n\n' +
+              '🎯 CÓMO JUGAR:\n' +
+              '• Toca las tarjetas para voltearlas\n' +
+              '• Encuentra las parejas iguales\n' +
+              '• ¡Celebra cuando encuentres todas!\n\n' +
+              '👶 PARA PAPÁS:\n' +
+              '• Juego diseñado para 1-3 años\n' +
+              '• Desarrolla memoria y atención\n' +
+              '• Acompaña y celebra con tu bebé\n' +
+              '• Puedes cambiar categorías arriba\n\n' +
+              '¡Diviértanse juntos! 💕');
+    });
+
+    // Inicializar el juego
+    createCards();
+
+    // Interacción especial para dispositivos táctiles
+    if ('ontouchstart' in window) {
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.cursor = 'default';
+        });
+    }
+</script>
+
+</body>
+</html>
